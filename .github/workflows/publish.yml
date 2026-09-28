@@ -1,75 +1,92 @@
 name: publish
 
 on:
-    repository_dispatch:
-        types: [release]
-    workflow_dispatch:
+  repository_dispatch:
+    types: [release]
+  workflow_dispatch:
 
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: write
+  pages: write
+  id-token: write
 
 concurrency:
-    group: pages
-    cancel-in-progress: false
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-    publish:
-        runs-on: ubuntu-latest
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
-        steps:
-            - uses: actions/checkout@v7
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
 
-            - name: Install tools
-              run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
+      - name: Register repo in packages.txt
+        if: github.event.client_payload.repo != ''
+        env:
+          REPO: ${{ github.event.client_payload.repo }}
+        run: |
+          if [[ ! "$REPO" =~ ^replworks/[A-Za-z0-9._-]+$ ]]; then
+            echo "Invalid repo: $REPO"; exit 1
+          fi
+          if ! grep -qxF "$REPO" packages.txt; then
+            echo "$REPO" >> packages.txt
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add packages.txt
+            git commit -m "Add $REPO"
+            git push
+          fi
 
-            - name: Download .deb from latest releases
-              env:
-                  GH_TOKEN: ${{ github.token }}
-              run: |
-                  mkdir -p site/pool/main
-                  while read -r repo; do
-                    [ -z "$repo" ] && continue
-                    gh release download --repo "$repo" --pattern '*.deb' --dir site/pool/main --clobber
-                  done < packages.txt
+      - name: Install tools
+        run: sudo apt-get update && sudo apt-get install -y dpkg-dev apt-utils
 
-            - name: Build APT metadata
-              run: |
-                  cd site
-                  for arch in amd64 arm64; do
-                    d=dists/stable/main/binary-$arch
-                    mkdir -p "$d"
-                    dpkg-scanpackages --arch "$arch" pool/ > "$d/Packages"
-                    gzip -k -f "$d/Packages"
-                  done
-                  apt-ftparchive \
-                    -o APT::FTPArchive::Release::Origin=replworks \
-                    -o APT::FTPArchive::Release::Suite=stable \
-                    -o APT::FTPArchive::Release::Codename=stable \
-                    -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
-                    -o APT::FTPArchive::Release::Components=main \
-                    release dists/stable > dists/stable/Release
+      - name: Download .deb from latest releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p site/pool/main
+          while read -r repo; do
+            [ -z "$repo" ] && continue
+            gh release download --repo "$repo" --pattern '*.deb' --dir site/pool/main --clobber
+          done < packages.txt
 
-            - name: Sign
-              env:
-                  GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
-                  GPG_PASSPHRASE: ${{ secrets.APT_GPG_PASSPHRASE }}
-              run: |
-                  echo "$GPG_PRIVATE_KEY" | gpg --batch --import
-                  cd site/dists/stable
-                  gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
-                    --clearsign -o InRelease Release
-                  gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
-                    -abs -o Release.gpg Release
-                  cd ../..
-                  gpg --export > replworks.gpg
+      - name: Build APT metadata
+        run: |
+          cd site
+          for arch in amd64 arm64; do
+            d=dists/stable/main/binary-$arch
+            mkdir -p "$d"
+            dpkg-scanpackages --arch "$arch" pool/ > "$d/Packages"
+            gzip -k -f "$d/Packages"
+          done
+          apt-ftparchive \
+            -o APT::FTPArchive::Release::Origin=replworks \
+            -o APT::FTPArchive::Release::Suite=stable \
+            -o APT::FTPArchive::Release::Codename=stable \
+            -o APT::FTPArchive::Release::Architectures="amd64 arm64" \
+            -o APT::FTPArchive::Release::Components=main \
+            release dists/stable > dists/stable/Release
 
-            - uses: actions/configure-pages@v6
-            - uses: actions/upload-pages-artifact@v5
-              with:
-                  path: site
-            - id: deployment
-              uses: actions/deploy-pages@v5
+      - name: Sign
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.APT_GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.APT_GPG_PASSPHRASE }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          cd site/dists/stable
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
+            --clearsign -o InRelease Release
+          gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
+            -abs -o Release.gpg Release
+          cd ../..
+          gpg --export > replworks.gpg
+
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+      - id: deployment
+        uses: actions/deploy-pages@v5
