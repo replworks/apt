@@ -1,5 +1,7 @@
 # replworks/apt
 
+[![publish](https://github.com/replworks/apt/actions/workflows/publish.yml/badge.svg)](https://github.com/replworks/apt/actions/workflows/publish.yml)
+
 `https://apt.repl.net` 로 서비스되는 replworks APT 저장소.
 각 프로젝트가 GitHub Release에 붙인 `.deb`를 모아서 서명하고 GitHub Pages로 배포한다.
 
