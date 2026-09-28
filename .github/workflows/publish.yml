@@ -32,6 +32,7 @@ jobs:
             echo "Invalid repo: $REPO"; exit 1
           fi
           if ! grep -qxF "$REPO" packages.txt; then
+            sed -i -e '$a\' packages.txt
             echo "$REPO" >> packages.txt
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -48,10 +49,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p site/pool/main
-          while read -r repo; do
+          while read -r repo || [ -n "$repo" ]; do
             [ -z "$repo" ] && continue
             gh release download --repo "$repo" --pattern '*.deb' --dir site/pool/main --clobber
           done < packages.txt
+          ls site/pool/main/*.deb
 
       - name: Build APT metadata
         run: |
