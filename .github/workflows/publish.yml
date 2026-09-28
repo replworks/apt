@@ -86,6 +86,46 @@ jobs:
           cd ../..
           gpg --export > replworks.gpg
 
+      - name: Build landing page
+        run: |
+          python3 - <<'PY'
+          import html
+          import pathlib
+
+          pkgs = {}
+          for arch in ("amd64", "arm64"):
+              text = pathlib.Path(f"site/dists/stable/main/binary-{arch}/Packages").read_text()
+              for block in text.strip().split("\n\n"):
+                  fields = {}
+                  for line in block.splitlines():
+                      if ":" in line and not line.startswith(" "):
+                          key, value = line.split(":", 1)
+                          fields[key] = value.strip()
+                  if "Package" in fields:
+                      pkgs[fields["Package"]] = fields
+
+          rows = []
+          for name, f in sorted(pkgs.items()):
+              link = ""
+              home = f.get("Homepage", "")
+              if home.startswith("https://") or home.startswith("http://"):
+                  link = f'<a href="{html.escape(home, quote=True)}">GitHub</a>'
+              rows.append(
+                  '    <li><div class="top">'
+                  f'<strong>{html.escape(name)}</strong>'
+                  f'<span class="ver">{html.escape(f.get("Version", ""))}</span>'
+                  f'{link}</div>'
+                  f'<p>{html.escape(f.get("Description", ""))}</p></li>'
+              )
+
+          page = pathlib.Path("index.html").read_text().replace("<!--PACKAGES-->", "\n".join(rows))
+          pathlib.Path("site/index.html").write_text(page)
+          if pathlib.Path("404.html").exists():
+              pathlib.Path("site/404.html").write_text(pathlib.Path("404.html").read_text())
+          else:
+              pathlib.Path("site/404.html").write_text(page)
+          PY
+
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
