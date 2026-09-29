@@ -23,26 +23,15 @@
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-              mono: ['"JetBrains Mono"', "monospace"],
-            },
-            colors: {
-              brand: {
-                400: "#38bdf8",
-                500: "#0ea5e9",
-                600: "#0284c7",
-              },
-            },
-          },
-        },
-      };
-    </script>
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+        --color-brand-400: #38bdf8;
+        --color-brand-500: #0ea5e9;
+        --color-brand-600: #0284c7;
+      }
+    </style>
   </head>
   <body
     class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-sky-500 selection:text-white"
