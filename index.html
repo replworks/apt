@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" class="dark scroll-smooth">
+<html lang="ko" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,15 @@
       name="description"
       content="Official APT repository for replworks open-source Debian/Ubuntu packages. Supported architectures: amd64, arm64."
     />
+    <link rel="canonical" href="https://apt.repl.net/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://apt.repl.net/" />
+    <meta property="og:title" content="replworks APT Repository | apt.repl.net" />
+    <meta property="og:description" content="Official APT repository for replworks open-source Debian/Ubuntu packages. Supported architectures: amd64, arm64." />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="replworks APT Repository | apt.repl.net" />
+    <meta name="twitter:description" content="Official APT repository for replworks open-source Debian/Ubuntu packages. Supported architectures: amd64, arm64." />
+    <noscript><style>#mobile-menu{display:block!important}#mobile-menu-btn{display:none!important}</style></noscript>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%230284c7%22/><path d=%22M25 45L40 60L75 25%22 stroke=%22white%22 stroke-width=%2210%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22 fill=%22none%22/></svg>"
@@ -126,6 +135,18 @@
   <body
     class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-sky-500 selection:text-white"
   >
+    <!-- SVG Sprite Definitions -->
+    <svg style="display:none" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="icon-github" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+        </symbol>
+        <symbol id="icon-copy" viewBox="0 0 24 24">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+        </symbol>
+      </defs>
+    </svg>
+
     <!-- Background Glow & Grid Decoration -->
     <div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
       <div
@@ -186,10 +207,8 @@
             rel="noopener noreferrer"
             class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800/60 hover:bg-slate-800 hover:text-white text-slate-300 transition-all font-mono text-xs"
           >
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-              <path
-                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-              />
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <use href="#icon-github"></use>
             </svg>
             GitHub
           </a>
@@ -248,10 +267,8 @@
               rel="noopener noreferrer"
               class="mobile-nav-link flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-200 font-mono text-xs transition"
             >
-              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path
-                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
-                />
+              <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <use href="#icon-github"></use>
               </svg>
               GitHub 저장소 바로가기
             </a>
@@ -396,18 +413,8 @@
               onclick="copyCode('cmd-oneliner', this)"
               class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shrink-0"
             >
-              <svg
-                class="w-3.5 h-3.5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                ></path>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24">
+                <use href="#icon-copy"></use>
               </svg>
               <span class="copy-btn-text">복사</span>
             </button>
@@ -447,18 +454,8 @@
                 onclick="copyCode('cmd-step1', this)"
                 class="inline-flex items-center gap-1.5 px-2 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
               >
-                <svg
-                  class="w-3 h-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  ></path>
+                <svg class="w-3 h-3" viewBox="0 0 24 24">
+                  <use href="#icon-copy"></use>
                 </svg>
                 <span class="copy-btn-text">복사</span>
               </button>
@@ -485,18 +482,8 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
                 onclick="copyCode('cmd-step2', this)"
                 class="inline-flex items-center gap-1.5 px-2 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
               >
-                <svg
-                  class="w-3 h-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  ></path>
+                <svg class="w-3 h-3" viewBox="0 0 24 24">
+                  <use href="#icon-copy"></use>
                 </svg>
                 <span class="copy-btn-text">복사</span>
               </button>
@@ -522,18 +509,8 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
                 onclick="copyCode('cmd-step3', this)"
                 class="inline-flex items-center gap-1.5 px-2 py-1 text-xs rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition"
               >
-                <svg
-                  class="w-3 h-3"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
-                  ></path>
+                <svg class="w-3 h-3" viewBox="0 0 24 24">
+                  <use href="#icon-copy"></use>
                 </svg>
                 <span class="copy-btn-text">복사</span>
               </button>
@@ -567,7 +544,7 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
 
         <!-- Packages Container (publish.yml will replace) -->
         <div id="packages-container" class="min-h-[140px] w-full overflow-hidden">
-          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+          <ul>
             <!--PACKAGES-->
           </ul>
         </div>
@@ -672,13 +649,35 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
 
     <!-- Interactive Script for Copy Buttons -->
     <script>
+      // Clipboard fallback for non-HTTPS or older browsers
+      function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise((resolve, reject) => {
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.cssText = "position:fixed;top:-9999px;left:-9999px;opacity:0";
+          document.body.appendChild(textarea);
+          textarea.focus();
+          textarea.select();
+          try {
+            document.execCommand("copy");
+            resolve();
+          } catch (err) {
+            reject(err);
+          } finally {
+            document.body.removeChild(textarea);
+          }
+        });
+      }
+
       function copyCode(elementId, button) {
         const codeElement = document.getElementById(elementId);
         if (!codeElement) return;
         const textToCopy = codeElement.innerText;
 
-        navigator.clipboard
-          .writeText(textToCopy)
+        copyToClipboard(textToCopy)
           .then(() => {
             const textSpan = button.querySelector(".copy-btn-text");
             const originalText = textSpan ? textSpan.innerText : "복사";
@@ -732,7 +731,7 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
 
         if (menuBtn && mobileMenu) {
           const toggleMenu = (open) => {
-            const shouldOpen = open !== undefined ? open : mobileMenu.classList.contains("hidden");
+            const shouldOpen = open ?? mobileMenu.classList.contains("hidden");
             if (shouldOpen) {
               mobileMenu.classList.remove("hidden");
               menuBtn.setAttribute("aria-expanded", "true");
