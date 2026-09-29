@@ -47,15 +47,29 @@
 
     <style>
       /* GitHub Actions에서 생성되는 기본 HTML 목록에 대한 스타일 지원 */
+      #packages-container {
+        width: 100%;
+        max-width: 100%;
+      }
       #packages-container ul {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(1, minmax(0, 1fr));
         gap: 1rem;
         list-style: none;
         padding: 0;
         margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @media (min-width: 768px) {
+        #packages-container ul {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
       #packages-container li {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
         padding: 1.25rem;
         border-radius: 0.75rem;
         border: 1px solid rgba(51, 65, 85, 0.7);
@@ -63,6 +77,7 @@
         transition: all 0.2s ease;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
       }
       #packages-container li:hover {
         border-color: rgba(56, 189, 248, 0.4);
@@ -76,12 +91,14 @@
         gap: 0.5rem;
         margin-bottom: 0.5rem;
         flex-wrap: wrap;
+        min-width: 0;
       }
       #packages-container li strong {
         font-family: "JetBrains Mono", monospace;
         font-size: 1.1rem;
         font-weight: 600;
         color: #f1f5f9;
+        word-break: break-all;
       }
       #packages-container li .ver {
         font-family: "JetBrains Mono", monospace;
@@ -91,12 +108,14 @@
         background: rgba(30, 41, 59, 0.9);
         color: #38bdf8;
         border: 1px solid rgba(56, 189, 248, 0.2);
+        white-space: nowrap;
       }
       #packages-container li a {
         font-size: 0.8rem;
         color: #38bdf8;
         text-decoration: none;
         font-weight: 500;
+        white-space: nowrap;
       }
       #packages-container li a:hover {
         text-decoration: underline;
@@ -106,6 +125,12 @@
         color: #94a3b8;
         margin-top: 0.25rem;
         line-height: 1.5;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      #packages-container li code {
+        overflow-wrap: break-word;
+        word-break: break-all;
       }
     </style>
   </head>
@@ -552,8 +577,8 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
         </div>
 
         <!-- Packages Container (publish.yml will replace) -->
-        <div id="packages-container" class="min-h-[140px]">
-          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="packages-container" class="min-h-[140px] w-full overflow-hidden">
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             <!--PACKAGES-->
           </ul>
         </div>
@@ -693,17 +718,17 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
         if (ul && ul.children.length === 0) {
           // Fallback display if viewing raw before CI build
           ul.innerHTML = `
-          <li class="p-5 rounded-xl border border-slate-800 bg-slate-900/60 shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <strong class="font-mono text-base font-semibold text-slate-200">coolrestore</strong>
-                <span class="px-2 py-0.5 text-xs font-mono rounded-full bg-slate-800 text-sky-400 border border-slate-700">latest</span>
+          <li class="p-5 rounded-xl border border-slate-800 bg-slate-900/60 shadow-sm flex flex-col justify-between min-w-0 overflow-hidden">
+            <div class="min-w-0">
+              <div class="flex items-center justify-between gap-2 mb-2 flex-wrap min-w-0">
+                <strong class="font-mono text-base font-semibold text-slate-200 truncate">coolrestore</strong>
+                <span class="px-2 py-0.5 text-xs font-mono rounded-full bg-slate-800 text-sky-400 border border-slate-700 shrink-0">latest</span>
               </div>
-              <p class="text-sm text-slate-400 mb-3">PostgreSQL WAL & Basebackup restore helper CLI tool</p>
+              <p class="text-sm text-slate-400 mb-3 break-words">PostgreSQL WAL & Basebackup restore helper CLI tool</p>
             </div>
-            <div class="pt-2 border-t border-slate-800/80 text-xs font-mono text-slate-500 flex items-center justify-between">
-              <code>sudo apt install coolrestore</code>
-              <a href="https://github.com/replworks/coolrestore" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">GitHub &rarr;</a>
+            <div class="pt-2 border-t border-slate-800/80 text-xs font-mono text-slate-500 flex items-center justify-between gap-2 flex-wrap min-w-0">
+              <code class="break-all">sudo apt install coolrestore</code>
+              <a href="https://github.com/replworks/coolrestore" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline shrink-0">GitHub &rarr;</a>
             </div>
           </li>
         `;
