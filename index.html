@@ -47,15 +47,29 @@
 
     <style>
       /* GitHub Actions에서 생성되는 기본 HTML 목록에 대한 스타일 지원 */
+      #packages-container {
+        width: 100%;
+        max-width: 100%;
+      }
       #packages-container ul {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        grid-template-columns: repeat(1, minmax(0, 1fr));
         gap: 1rem;
         list-style: none;
         padding: 0;
         margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @media (min-width: 768px) {
+        #packages-container ul {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
       #packages-container li {
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
         padding: 1.25rem;
         border-radius: 0.75rem;
         border: 1px solid rgba(51, 65, 85, 0.7);
@@ -63,6 +77,7 @@
         transition: all 0.2s ease;
         display: flex;
         flex-direction: column;
+        overflow: hidden;
       }
       #packages-container li:hover {
         border-color: rgba(56, 189, 248, 0.4);
@@ -76,12 +91,14 @@
         gap: 0.5rem;
         margin-bottom: 0.5rem;
         flex-wrap: wrap;
+        min-width: 0;
       }
       #packages-container li strong {
         font-family: "JetBrains Mono", monospace;
         font-size: 1.1rem;
         font-weight: 600;
         color: #f1f5f9;
+        word-break: break-all;
       }
       #packages-container li .ver {
         font-family: "JetBrains Mono", monospace;
@@ -91,12 +108,14 @@
         background: rgba(30, 41, 59, 0.9);
         color: #38bdf8;
         border: 1px solid rgba(56, 189, 248, 0.2);
+        white-space: nowrap;
       }
       #packages-container li a {
         font-size: 0.8rem;
         color: #38bdf8;
         text-decoration: none;
         font-weight: 500;
+        white-space: nowrap;
       }
       #packages-container li a:hover {
         text-decoration: underline;
@@ -106,6 +125,12 @@
         color: #94a3b8;
         margin-top: 0.25rem;
         line-height: 1.5;
+        overflow-wrap: break-word;
+        word-break: break-word;
+      }
+      #packages-container li code {
+        overflow-wrap: break-word;
+        word-break: break-all;
       }
     </style>
   </head>
@@ -145,7 +170,8 @@
             >
           </div>
         </div>
-        <div class="flex items-center gap-3 sm:gap-4 text-sm">
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-4 text-sm">
           <a
             href="#quickstart"
             class="text-slate-400 hover:text-white transition-colors"
@@ -178,6 +204,69 @@
             </svg>
             GitHub
           </a>
+        </div>
+
+        <!-- Mobile Menu Toggle Button -->
+        <div class="flex items-center md:hidden">
+          <button
+            id="mobile-menu-btn"
+            type="button"
+            aria-expanded="false"
+            aria-label="메뉴 토글"
+            class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/80 border border-slate-800 transition focus:outline-none"
+          >
+            <!-- Hamburger Icon -->
+            <svg id="menu-icon-open" class="w-5 h-5 block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+            <!-- Close Icon -->
+            <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden border-t border-slate-800/80 bg-slate-950/95 backdrop-blur-lg px-4 pt-3 pb-5 transition-all duration-200"
+      >
+        <div class="flex flex-col space-y-2">
+          <a
+            href="#quickstart"
+            class="mobile-nav-link px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            >⚡ 설치 방법</a
+          >
+          <a
+            href="#packages"
+            class="mobile-nav-link px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+            >📦 패키지 목록</a
+          >
+          <a
+            href="https://brew.repl.net"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mobile-nav-link px-3 py-2.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-900 transition-colors flex items-center justify-between"
+          >
+            <span>🍺 Homebrew Tap</span>
+            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          </a>
+          <div class="pt-2 border-t border-slate-800/80">
+            <a
+              href="https://github.com/replworks/apt"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="mobile-nav-link flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-200 font-mono text-xs transition"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+                />
+              </svg>
+              GitHub 저장소 바로가기
+            </a>
+          </div>
         </div>
       </div>
     </header>
@@ -488,8 +577,8 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
         </div>
 
         <!-- Packages Container (publish.yml will replace) -->
-        <div id="packages-container" class="min-h-[140px]">
-          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div id="packages-container" class="min-h-[140px] w-full overflow-hidden">
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
             <!--PACKAGES-->
           </ul>
         </div>
@@ -629,21 +718,72 @@ curl -fsSL https://apt.repl.net/replworks.gpg | sudo tee /etc/apt/keyrings/replw
         if (ul && ul.children.length === 0) {
           // Fallback display if viewing raw before CI build
           ul.innerHTML = `
-          <li class="p-5 rounded-xl border border-slate-800 bg-slate-900/60 shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2">
-                <strong class="font-mono text-base font-semibold text-slate-200">coolrestore</strong>
-                <span class="px-2 py-0.5 text-xs font-mono rounded-full bg-slate-800 text-sky-400 border border-slate-700">latest</span>
+          <li class="p-5 rounded-xl border border-slate-800 bg-slate-900/60 shadow-sm flex flex-col justify-between min-w-0 overflow-hidden">
+            <div class="min-w-0">
+              <div class="flex items-center justify-between gap-2 mb-2 flex-wrap min-w-0">
+                <strong class="font-mono text-base font-semibold text-slate-200 truncate">coolrestore</strong>
+                <span class="px-2 py-0.5 text-xs font-mono rounded-full bg-slate-800 text-sky-400 border border-slate-700 shrink-0">latest</span>
               </div>
-              <p class="text-sm text-slate-400 mb-3">PostgreSQL WAL & Basebackup restore helper CLI tool</p>
+              <p class="text-sm text-slate-400 mb-3 break-words">PostgreSQL WAL & Basebackup restore helper CLI tool</p>
             </div>
-            <div class="pt-2 border-t border-slate-800/80 text-xs font-mono text-slate-500 flex items-center justify-between">
-              <code>sudo apt install coolrestore</code>
-              <a href="https://github.com/replworks/coolrestore" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">GitHub &rarr;</a>
+            <div class="pt-2 border-t border-slate-800/80 text-xs font-mono text-slate-500 flex items-center justify-between gap-2 flex-wrap min-w-0">
+              <code class="break-all">sudo apt install coolrestore</code>
+              <a href="https://github.com/replworks/coolrestore" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline shrink-0">GitHub &rarr;</a>
             </div>
           </li>
         `;
           if (emptyHint) emptyHint.classList.remove("hidden");
+        }
+
+        // Mobile navigation menu toggle
+        const menuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const iconOpen = document.getElementById("menu-icon-open");
+        const iconClose = document.getElementById("menu-icon-close");
+
+        if (menuBtn && mobileMenu) {
+          const toggleMenu = (open) => {
+            const shouldOpen = open !== undefined ? open : mobileMenu.classList.contains("hidden");
+            if (shouldOpen) {
+              mobileMenu.classList.remove("hidden");
+              menuBtn.setAttribute("aria-expanded", "true");
+              iconOpen.classList.add("hidden");
+              iconOpen.classList.remove("block");
+              iconClose.classList.remove("hidden");
+              iconClose.classList.add("block");
+            } else {
+              mobileMenu.classList.add("hidden");
+              menuBtn.setAttribute("aria-expanded", "false");
+              iconOpen.classList.remove("hidden");
+              iconOpen.classList.add("block");
+              iconClose.classList.add("hidden");
+              iconClose.classList.remove("block");
+            }
+          };
+
+          menuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleMenu();
+          });
+
+          // Close on menu link click
+          document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+            link.addEventListener("click", () => toggleMenu(false));
+          });
+
+          // Close on clicking outside
+          document.addEventListener("click", (e) => {
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+              toggleMenu(false);
+            }
+          });
+
+          // Close on Escape key
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+              toggleMenu(false);
+            }
+          });
         }
       });
     </script>
