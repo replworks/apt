@@ -23,27 +23,16 @@
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
-              mono: ['"JetBrains Mono"', "monospace"],
-            },
-            colors: {
-              brand: {
-                50: "#f0f9ff",
-                400: "#38bdf8",
-                500: "#0ea5e9",
-                600: "#0284c7",
-              },
-            },
-          },
-        },
-      };
-    </script>
+    <style type="text/tailwindcss">
+      @theme {
+        --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+        --font-mono: "JetBrains Mono", monospace;
+        --color-brand-50: #f0f9ff;
+        --color-brand-400: #38bdf8;
+        --color-brand-500: #0ea5e9;
+        --color-brand-600: #0284c7;
+      }
+    </style>
 
     <style>
       /* GitHub Actions에서 생성되는 기본 HTML 목록에 대한 스타일 지원 */
@@ -274,10 +263,10 @@
     <!-- Hero Section -->
     <main class="flex-1">
       <section
-        class="max-w-5xl mx-auto px-4 sm:px-6 pt-16 pb-12 text-center sm:text-left"
+        class="max-w-5xl mx-auto px-4 sm:px-6 pt-6 sm:pt-16 pb-8 sm:pb-12 text-center sm:text-left"
       >
         <div
-          class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-950/40 text-sky-400 text-xs font-mono mb-6"
+          class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-500/30 bg-sky-950/40 text-sky-400 text-xs font-mono mb-4 sm:mb-6"
         >
           <span
             class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"
@@ -374,15 +363,15 @@
       <!-- Quick Start / Installation Section -->
       <section
         id="quickstart"
-        class="max-w-5xl mx-auto px-4 sm:px-6 py-10 border-t border-slate-800/60"
+        class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-10 border-t border-slate-800/60"
       >
-        <div class="mb-8">
+        <div class="mb-6 sm:mb-8">
           <h2
-            class="text-2xl font-bold text-white tracking-tight flex items-center gap-2"
+            class="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2"
           >
             <span>⚡</span> 저장소 등록 및 설치 방법
           </h2>
-          <p class="text-slate-400 text-sm mt-1">
+          <p class="text-slate-400 text-xs sm:text-sm mt-1">
             터미널에서 아래 명령어를 실행하여 GPG 키와 저장소 소스 목록을
             등록하세요.
           </p>
@@ -390,22 +379,22 @@
 
         <!-- Quick One-liner Box -->
         <div
-          class="mb-8 p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-sky-500/30 shadow-lg relative overflow-hidden"
+          class="mb-8 p-4 sm:p-6 rounded-2xl bg-gradient-to-b from-slate-900 to-slate-950 border border-sky-500/30 shadow-lg relative overflow-hidden"
         >
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2">
+          <div class="flex items-center justify-between gap-2 mb-3">
+            <div class="flex items-center gap-2 min-w-0">
               <span
-                class="px-2 py-0.5 rounded text-[11px] font-semibold font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30"
+                class="hidden sm:inline-flex px-2 py-0.5 rounded text-[11px] font-semibold font-mono bg-sky-500/20 text-sky-400 border border-sky-500/30 shrink-0"
               >
                 RECOMMENDED
               </span>
-              <span class="text-sm font-semibold text-slate-200"
+              <span class="text-sm font-semibold text-slate-200 truncate"
                 >원라이너(One-liner) 자동 설정</span
               >
             </div>
             <button
               onclick="copyCode('cmd-oneliner', this)"
-              class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-md bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition shrink-0"
             >
               <svg
                 class="w-3.5 h-3.5"
