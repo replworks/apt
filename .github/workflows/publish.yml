@@ -1,6 +1,8 @@
 name: publish
 
 on:
+  push:
+    branches: [main]
   repository_dispatch:
     types: [release]
   workflow_dispatch:
